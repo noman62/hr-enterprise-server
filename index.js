@@ -21,6 +21,7 @@ client.connect(err => {
   const collection = client.db("manobotar-deyal").collection("products");
   const orderCollection = client.db("manobotar-deyal").collection("orders");
   const userCollection = client.db("manobotar-deyal").collection("users");
+  const RequestCollection = client.db("manobotar-deyal").collection("allRequest");
 
   app.get('/products', (req, res) => {
     collection.find()
@@ -43,6 +44,18 @@ client.connect(err => {
     const newEvent = req.body;
 
     collection.insertOne(newEvent)
+      .then(result => {
+
+        res.send(result.insertedCount > 0);
+      })
+  })
+
+
+  app.post('/request', (req, res) => {
+    console.log(req.body)
+    const newRequest= req.body;
+
+    RequestCollection.insertOne(newRequest)
       .then(result => {
 
         res.send(result.insertedCount > 0);
